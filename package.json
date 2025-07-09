@@ -2,9 +2,9 @@
   "name": "palm-proxy",
   "version": "0.0.0",
   "devDependencies": {
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "typescript": "^5.3.3"
+    "@types/node": "20.12.12",
+    "@types/react": "18.3.2",
+    "typescript": "5.4.5"
   },
   "private": true,
   "scripts": {
@@ -13,8 +13,8 @@
     "dev": "PORT=4000 next dev"
   },
   "dependencies": {
-    "next": "canary",
-    "react": "latest",
-    "react-dom": "latest"
+    "next": "14.2.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }
