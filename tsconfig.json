@@ -2,6 +2,8 @@
   "compilerOptions": {
     "target": "es2021",
     "lib": [
+      "dom",
+      "dom.iterable",
       "es2021"
     ],
     "jsx": "preserve",
@@ -17,7 +19,12 @@
     "strict": true,
     "skipLibCheck": true,
     "incremental": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
