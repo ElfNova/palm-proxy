@@ -1,17 +1,7 @@
 import { NextRequest } from "next/server";
 
-const pickHeaders = (headers: Headers, keys: (string | RegExp)[]): Headers => {
-  const picked = new Headers();
-  for (const key of headers.keys()) {
-    if (keys.some((k) => (typeof k === "string" ? k === key : k.test(key)))) {
-      const value = headers.get(key);
-      if (typeof value === "string") {
-        picked.set(key, value);
-      }
-    }
-  }
-  return picked;
-};
+declare const process: any;
+
 
 const CORS_HEADERS: Record<string, string> = {
   "access-control-allow-origin": "*",
@@ -60,19 +50,23 @@ export default async function handleRequest(request: NextRequest & { nextUrl?: U
   // -d '{ "prompt": { "text": "Write a story about a magic backpack"} }' \
   // "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key={YOUR_KEY}"
 
-  const url = new URL(pathname, "https://generativelanguage.googleapis.com");
+  const API_HOST = typeof process.env.API_HOST === "string" ? process.env.API_HOST : "generativelanguage.googleapis.com";
+  const url = new URL(pathname, `https://${API_HOST}`);
   searchParams.delete("_path");
 
-  searchParams.forEach((value, key) => {
+  searchParams.forEach((value: string, key: string) => {
     url.searchParams.append(key, value);
   });
 
-  const headers = pickHeaders(request.headers, ["content-type", "x-goog-api-client", "x-goog-api-key"]);
+  const headers = new Headers(request.headers);
+  headers.set("host", API_HOST);
 
-  const response = await fetch(url, {
+  const response = await fetch(url.toString(), {
     body: request.body,
     method: request.method,
     headers,
+    // @ts-ignore
+    duplex: "half",
   });
 
   const responseHeaders = {
