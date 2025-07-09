@@ -65,8 +65,6 @@ export default async function handleRequest(request: NextRequest & { nextUrl?: U
     body: request.body,
     method: request.method,
     headers,
-    // @ts-ignore
-    duplex: "half",
   });
 
   const responseHeaders = {
